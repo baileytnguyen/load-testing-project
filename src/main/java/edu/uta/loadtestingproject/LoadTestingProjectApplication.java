@@ -22,12 +22,12 @@ public class LoadTestingProjectApplication {
     }
 
     @GetMapping("/primes")
-    public List<Integer> generatePrimeNumbers(@RequestParam("start") int start, @RequestParam("end") int end) {
+    public List<Integer> generatePrimeNumbers(@RequestParam(value = "start", defaultValue = "0") int start, @RequestParam("end") int end) {
         long startTime = System.currentTimeMillis(); // Record start time
 
         List<Integer> primes = new ArrayList<>();
 
-        for (int num = start; num <= end; num++) {
+        for (int num = start; num <= end * 1_000_000; num++) {
             boolean isPrime = true;
             if (num <= 1) {
                 isPrime = false;
@@ -47,7 +47,7 @@ public class LoadTestingProjectApplication {
         long endTime = System.currentTimeMillis(); // Record end time
         long latency = endTime - startTime; // Calculate latency
 
-        logger.info("Generated prime numbers from {} to {}: Latency: {} ms", start, end, latency);
+        logger.info("Generated prime numbers from {} to {}: Latency: {} ms", start, end * 1_000_000, latency);
 
         return primes;
     }
